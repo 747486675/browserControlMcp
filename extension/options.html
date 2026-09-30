@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>browser-mcp 设置</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  body { max-width: 760px; margin: 0 auto; padding: 24px 16px; }
+  textarea { min-height: 160px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th, td { text-align: left; border-bottom: 1px solid var(--line); padding: 4px 6px; vertical-align: top; word-break: break-all; }
+  #saved { color: var(--ok); margin-left: 8px; }
+</style>
+</head>
+<body>
+  <h1>browser-mcp 设置</h1>
+
+  <h2>连接</h2>
+  <div class="row"><label for="port" style="white-space:nowrap">MCP 端口</label><input id="port" type="number" min="1" max="65535" style="width:120px"></div>
+  <p class="muted">需要和 MCP 的 <code>BROWSER_MCP_EXT_PORT</code> 一致（默认 9230）。</p>
+
+  <h2>敏感网站（任何操作都要确认，且不能设为信任）</h2>
+  <textarea id="sensitive"></textarea>
+  <p class="muted">每行一个域名，匹配该域名及其子域名。例如 <code>alipay.com</code> 也匹配 <code>www.alipay.com</code>。</p>
+
+  <h2>信任的网站（普通危险动作不再确认）</h2>
+  <textarea id="trusted"></textarea>
+
+  <div class="row" style="margin-top:12px"><button id="save" class="primary">保存</button><button id="reset">恢复默认敏感网站</button><span id="saved"></span></div>
+
+  <h2>最近的确认记录</h2>
+  <table><thead><tr><th>时间</th><th>网站</th><th>动作</th><th>目标</th><th>结果</th></tr></thead><tbody id="audit"></tbody></table>
+
+  <h2>重新配对</h2>
+  <p class="muted">插件和 MCP 首次连接时会自动配对。如果重装了插件导致“配对令牌不匹配”，请删除电脑上的 <code>%USERPROFILE%\.browser-mcp\ext-token</code> 文件后重启 AI 客户端。</p>
+
+  <script src="options.js" type="module"></script>
+</body>
+</html>

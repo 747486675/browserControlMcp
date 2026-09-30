@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>AI 操作确认</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  body { padding: 18px; }
+  .warn { border-left: 4px solid var(--warn); }
+  dl { display: grid; grid-template-columns: 72px 1fr; gap: 6px 10px; margin: 0; }
+  dt { color: var(--muted); }
+  dd { margin: 0; word-break: break-all; }
+  .actions { display: flex; gap: 8px; margin-top: 16px; }
+  .actions button { flex: 1; padding: 8px; }
+  #countdown { float: right; }
+</style>
+</head>
+<body>
+  <h1>AI 想执行一个需要你确认的操作 <span class="muted" id="countdown"></span></h1>
+  <div class="card warn">
+    <dl>
+      <dt>网站</dt><dd id="host"></dd>
+      <dt>动作</dt><dd id="action"></dd>
+      <dt>目标</dt><dd id="target"></dd>
+      <dt id="valueLabel">内容</dt><dd id="value"></dd>
+      <dt>原因</dt><dd id="reason"></dd>
+    </dl>
+  </div>
+  <div class="actions">
+    <button id="deny">拒绝</button>
+    <button id="allow" class="primary">允许这一次</button>
+  </div>
+  <div class="actions" id="trustRow">
+    <button id="trust">允许，并以后信任此网站</button>
+  </div>
+  <p class="muted">不确定就点“拒绝”。超时未选择将自动拒绝。如果这不是你让 AI 做的事，可以在插件图标里点“全部停止”。</p>
+  <script src="confirm.js" type="module"></script>
+</body>
+</html>

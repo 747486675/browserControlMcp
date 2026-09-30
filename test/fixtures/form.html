@@ -1,0 +1,19 @@
+<!doctype html><meta charset="utf-8"><title>Form</title>
+<label>Name <input id="name"></label>
+<label>City <select id="city"><option value="bj">Beijing</option><option value="sh">Shanghai</option></select></label>
+<label>Search <input id="q" placeholder="type slowly"></label>
+<button id="add">Add</button>
+<p id="count">count 0</p>
+<p id="echo">echo:</p>
+<p id="keys">keys 0</p>
+<script>
+let c = 0, k = 0;
+document.getElementById('add').onclick = async () => {
+  // 模拟接口请求后再更新
+  await fetch('/api/slow?ms=' + (50 + Math.random() * 150));
+  c++; document.getElementById('count').textContent = 'count ' + c;
+  document.getElementById('echo').textContent = 'echo:' + document.getElementById('name').value + '/' + document.getElementById('city').value;
+};
+document.getElementById('q').addEventListener('keydown', () => { k++; document.getElementById('keys').textContent = 'keys ' + k; });
+document.getElementById('name').addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('echo').textContent = 'submitted:' + e.target.value; });
+</script>

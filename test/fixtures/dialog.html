@@ -1,0 +1,6 @@
+<!doctype html><meta charset="utf-8"><title>Dialogs</title>
+<button onclick="alert('hello alert')">Alert</button>
+<button onclick="document.getElementById('out').textContent = confirm('are you sure?') ? 'confirmed' : 'cancelled'">Confirm</button>
+<button onclick="document.getElementById('out').textContent = 'prompt:' + prompt('your name?', 'x')">Prompt</button>
+<button onclick="setTimeout(() => alert('late alert'), 300)">Late Alert</button>
+<p id="out">none</p>

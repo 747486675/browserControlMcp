@@ -1,0 +1,11 @@
+<!doctype html><meta charset="utf-8"><title>Safety</title>
+<button id="del" onclick="document.getElementById('out').textContent='deleted'">删除订单</button>
+<button id="view" onclick="document.getElementById('out').textContent='viewed'">查看详情</button>
+<form id="search" method="get" action="/safety.html" onsubmit="event.preventDefault();document.getElementById('out').textContent='searched'">
+  <input name="q" aria-label="搜索"><button type="submit">搜索</button>
+</form>
+<form id="profile" method="post" action="/safety.html" onsubmit="event.preventDefault();document.getElementById('out').textContent='saved'">
+  <input name="nick" aria-label="昵称"><button type="submit">保存资料</button>
+</form>
+<label>登录密码 <input type="password" id="pwd" name="password"></label>
+<p id="out">none</p>

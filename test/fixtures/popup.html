@@ -1,0 +1,4 @@
+<!doctype html><meta charset="utf-8"><title>Popup</title>
+<a href="/target.html" target="_blank">Open Target</a>
+<button onclick="window.open('/target.html')">Window Open</button>
+<button onclick="const w = window.open('about:blank'); setTimeout(() => { w.location.href = '/target.html?late'; }, 400)">Blank Then Nav</button>

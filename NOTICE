@@ -1,0 +1,13 @@
+browser-mcp
+Copyright (c) 2026 browser-mcp contributors
+
+This project includes code adapted from Playwright
+(https://github.com/microsoft/playwright), licensed under the Apache License 2.0:
+
+  - src/extension/browserModel.ts  (adapted from packages/playwright-core/src/tools/mcp/browserModel.ts)
+  - src/extension/relay.ts         (structure adapted from packages/playwright-core/src/tools/mcp/cdpRelay.ts)
+
+  Copyright (c) Microsoft Corporation.
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use these files except in compliance with the License.
+  You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0

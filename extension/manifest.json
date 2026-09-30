@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "browser-mcp",
+  "description": "让 AI 通过 MCP 在你的 Chrome 里操作标签页（只限 AI 分组），危险动作需你确认。",
+  "version": "0.2.0",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAn2ejGyLsBJWLbCkSN8jVn4ALMwLBEzwofPb+K2wO8oVpwsvQLdejqVhz5vh0U+vzNwJNA/HkDD+u9AUqe5gmZboWFV7MkOIGgrDdJOcepwF5OcWSHFvEINDtsHa8U5qgvNJUswbYFvA3YbdlbXmeP2j+ZRSxJVFBGSN9WTCu1yyJkhsy1O9RZXz+VftjOnIQAn3lCKMTGeNmDWXggVwNyf0kaMyODoC3uRQcEB/qBgU5wSgs1rz+Dj6pAKtRct6s83imj0kDkrQOcXEz1rOgKgUBFFRCcwWONG8lXEvaLBgqnkkhrvK8ezve7QgV3NzT4UOEZGg2PHAWsCK93JqGsQIDAQAB",
+  "minimum_chrome_version": "125",
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": [
+    "debugger",
+    "tabs",
+    "tabGroups",
+    "downloads",
+    "storage",
+    "alarms"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "action": {
+    "default_title": "browser-mcp",
+    "default_popup": "popup.html"
+  },
+  "options_page": "options.html",
+  "icons": {
+    "16": "icons/16.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  },
+  "externally_connectable": {
+    "matches": [
+      "http://127.0.0.1/*"
+    ]
+  }
+}

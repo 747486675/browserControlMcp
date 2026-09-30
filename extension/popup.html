@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="common.css">
+<style>
+  body { width: 300px; padding: 14px; }
+  .stat { display: flex; justify-content: space-between; padding: 4px 0; }
+  .actions { display: flex; gap: 8px; margin-top: 12px; }
+  .actions button { flex: 1; }
+</style>
+</head>
+<body>
+  <h1 class="row"><span class="dot" id="dot"></span><span id="status">检查中…</span></h1>
+  <div class="card">
+    <div class="stat"><span>AI 分组标签页</span><b id="aiTabs">-</b></div>
+    <div class="stat"><span>正在控制</span><b id="attached">-</b></div>
+    <div class="stat"><span>MCP 端口</span><b id="port">-</b></div>
+  </div>
+  <p class="muted" id="err"></p>
+  <div class="actions">
+    <button id="toggle" class="danger">全部停止</button>
+    <button id="options">设置</button>
+  </div>
+  <p class="muted">AI 只能操作名为 “AI” 的标签页分组。把标签页拖进/拖出该分组，即可交给或收回 AI 的控制。</p>
+  <script src="popup.js" type="module"></script>
+</body>
+</html>

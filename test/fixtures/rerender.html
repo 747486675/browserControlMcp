@@ -1,0 +1,20 @@
+<!doctype html><meta charset="utf-8"><title>Rerender</title>
+<div id="list"></div>
+<button id="re">Rerender</button>
+<p id="out">none</p>
+<script>
+let gen = 0;
+function render() {
+  gen++;
+  const list = document.getElementById('list');
+  list.innerHTML = '';
+  for (const name of ['Alpha', 'Beta']) {
+    const b = document.createElement('button');
+    b.textContent = name;
+    b.onclick = () => document.getElementById('out').textContent = name + ' gen' + gen;
+    list.appendChild(b);
+  }
+}
+render();
+document.getElementById('re').onclick = render;
+</script>

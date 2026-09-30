@@ -1,0 +1,11 @@
+<!doctype html><meta charset="utf-8"><title>Overlay</title>
+<style>#mask{position:fixed;inset:0;background:rgba(0,0,0,.4)} #perm{position:absolute;left:0;top:200px;width:300px;height:60px;background:#c00}</style>
+<button id="a" style="margin:40px">Under Temp Mask</button>
+<div style="position:relative"><button id="b" style="margin-top:210px">Under Permanent Mask</button><div id="perm"></div></div>
+<p id="out">none</p>
+<div id="mask"></div>
+<script>
+setTimeout(() => document.getElementById('mask').remove(), 1500);
+document.getElementById('a').onclick = () => document.getElementById('out').textContent = 'A clicked';
+document.getElementById('b').onclick = () => document.getElementById('out').textContent = 'B clicked';
+</script>

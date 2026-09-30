@@ -1,0 +1,10 @@
+<!doctype html><meta charset="utf-8"><title>Delayed</title>
+<button id="late" disabled>Late Button</button>
+<p id="out">not clicked</p>
+<script>
+// 1.2s 后才可用，并且在 0.6s 时位置会移动（测试"稳定"等待）
+let n = 0;
+setTimeout(() => { document.body.insertAdjacentHTML('afterbegin', '<p>banner pushes things down</p>'); }, 600);
+setTimeout(() => { document.getElementById('late').disabled = false; }, 1200);
+document.getElementById('late').onclick = () => { n++; document.getElementById('out').textContent = 'clicked ' + n; };
+</script>
