@@ -23,15 +23,44 @@
 
 ---
 
-## 两种模式
+## 两种模式：二选一
 
-| | CDP 模式（默认） | 插件模式（推荐） |
+browser-mcp 有两种工作方式。两者的区别只有一个：**AI 操作的是哪个 Chrome**。
+
+- **插件模式（推荐日常使用）**：AI 操作**你平时用的那个 Chrome**。
+  - 你在 Chrome 里装一个插件，AI 通过插件来操作网页；
+  - 你登录过的网站，AI 打开时直接就是已登录状态；
+  - 网站看到的就是你本人在用浏览器，最不容易被当成机器人。
+- **CDP 模式**：AI **自己另开一个专用的 Chrome**。
+  - 这个 Chrome 和你日常用的完全分开，没有你的书签、插件和登录记录，像一台新电脑上刚装好的 Chrome；
+  - 需要登录的网站，你在这个窗口里手动登录一次，之后一直保留。
+  - 名字来自 Chrome DevTools Protocol，也就是 Chrome 自带的遥控接口。其实两种模式底层都用它，区别在于这里是直接遥控一个自己开的 Chrome。
+
+| | 插件模式 | CDP 模式 |
 |---|---|---|
-| 操作哪个浏览器 | 一个 AI 专用的 Chrome 窗口 | **你日常用的 Chrome**，只限“AI”标签页分组 |
-| 登录态 | 在 AI 窗口里登录一次，长期保留 | 直接用你现有的登录、书签、插件 |
-| 需要安装 | 不需要 | 在 Chrome 里加载本项目的 `extension` 插件 |
-| 危险动作确认 | 默认关闭 | 默认开启 |
-| 适合 | 让 AI 在隔离环境里干活 | 让 AI 帮你处理需要登录的网站 |
+| 操作哪个浏览器 | **你日常用的 Chrome**，只限“AI”标签页分组 | 一个 AI 专用的独立 Chrome 窗口 |
+| 登录状态 | 直接用你现有的登录、书签、插件 | 在 AI 窗口里登录一次，长期保留 |
+| 需要额外安装 | 在 Chrome 里加载本项目的 `extension` 插件 | 不需要 |
+| 危险动作确认 | 默认开启（在浏览器里弹窗） | 默认关闭 |
+| 会不会碰到你的账号 | 会，所以有分组隔离、确认弹窗、一键停止 | 不会，和你的日常浏览器完全隔离 |
+| 适合 | 让 AI 帮你处理需要登录的网站：查票、查订单、填表、下载报表 | 让 AI 在隔离环境里干活；在服务器上无人值守运行 |
+
+### 怎么选
+
+- 拿不准就选**插件模式**。
+- 不想让 AI 接触你的日常浏览器和账号，或者在没有桌面的服务器上跑，选 **CDP 模式**。
+
+### 怎么设置
+
+在 AI 客户端的 MCP 配置里，用环境变量 `BROWSER_MCP_MODE` 指定模式。只需要配一次，之后用的时候不用管：
+
+| 配置里写 | 使用的模式 |
+|---|---|
+| `"env": { "BROWSER_MCP_MODE": "extension" }` | 插件模式 |
+| 不写 `BROWSER_MCP_MODE`，或写成 `"cdp"` | CDP 模式 |
+
+- 想换模式，改这一项然后重启 AI 客户端即可。
+- 两种模式也可以同时配置，写成两个 MCP 服务：一个叫 `browser`，用插件模式；另一个叫 `browser-cdp`，不写 `BROWSER_MCP_MODE`。两者用的端口不同，互不影响。你对 AI 说“用 browser-cdp 打开……”，它就会用对应的那个。
 
 ---
 
@@ -46,8 +75,8 @@
 ### 2. 下载并安装
 
 ```bash
-git clone https://github.com/<your-name>/browser-mcp.git
-cd browser-mcp
+git clone https://github.com/747486675/browserControlMcp.git
+cd browserControlMcp
 npm install        # 会自动编译，生成 dist/
 ```
 
@@ -55,7 +84,20 @@ npm install        # 会自动编译，生成 dist/
 
 ### 3. 接入 AI 客户端
 
-下面以**插件模式**为例。想用 CDP 模式，去掉 `BROWSER_MCP_MODE` 这项即可。
+下面的配置都是**插件模式**。想用 CDP 模式，把 `env` 那一项（Claude Code 是 `-e BROWSER_MCP_MODE=extension`）删掉即可，同时跳过第 4 步安装插件。
+
+CDP 模式的 Claude 桌面版配置示例：
+
+```json
+{
+  "mcpServers": {
+    "browser": {
+      "command": "node",
+      "args": ["<项目路径>/dist/index.js"]
+    }
+  }
+}
+```
 
 <details open>
 <summary><b>Claude 桌面版</b></summary>
@@ -142,10 +184,12 @@ Cursor 编辑 `~/.cursor/mcp.json`，格式与 Claude 桌面版相同：
 
 > 用浏览器打开 github.com 的通知页，告诉我有没有未读通知
 
-你会看到：
+**插件模式**下你会看到：
 - 当前窗口里出现一个紫色的 **“AI”标签页分组**；
 - 页面顶部出现“browser-mcp 已开始调试此浏览器”的提示条；
 - AI 直接使用你已登录的身份打开页面。
+
+**CDP 模式**下会弹出一个新的独立 Chrome 窗口。第一次用时里面没有登录，你在这个窗口里登录 GitHub 后，再让 AI 重试即可。以后就一直保持登录了。
 
 ---
 
@@ -272,7 +316,7 @@ Claude、Codex、Cursor 可以都配置插件模式。
 
 | 变量 | 默认值 | 说明 |
 |---|---|---|
-| `BROWSER_MCP_MODE` | `cdp` | `cdp` 或 `extension` |
+| `BROWSER_MCP_MODE` | `cdp` | 工作模式：`extension` 为插件模式，`cdp` 或不写为 CDP 模式 |
 | `BROWSER_MCP_EXT_PORT` | `9230` | 插件模式的本机端口（插件“设置”里要一致） |
 | `BROWSER_MCP_SAFETY` | 插件模式开启 | 设为 `off` 关闭危险动作确认（不建议） |
 | `BROWSER_MCP_CONFIRM_TIMEOUT` | `45000` | 等你确认的最长时间（毫秒） |
@@ -280,6 +324,7 @@ Claude、Codex、Cursor 可以都配置插件模式。
 | `BROWSER_MCP_PROFILE` | `~/.browser-mcp/chrome-profile` | CDP 模式的 AI 专用 profile 目录 |
 | `BROWSER_MCP_DOWNLOADS` | `<profile>/downloads` | CDP 模式的下载目录 |
 | `BROWSER_MCP_CHROME` | 自动查找 | Chrome 可执行文件路径 |
+| `BROWSER_MCP_HEADLESS` | `0` | CDP 模式下设为 `1` 时无界面运行（不显示窗口，适合服务器） |
 | `BROWSER_MCP_ACTION_TIMEOUT` | `8000` | 元素动作超时（毫秒） |
 | `BROWSER_MCP_NAV_TIMEOUT` | `30000` | 页面导航超时 |
 | `BROWSER_MCP_TOOL_TIMEOUT` | `60000` | 单次调用总超时 |
